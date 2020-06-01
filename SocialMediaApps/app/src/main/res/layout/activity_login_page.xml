@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:paddingBottom="20dp"
+    tools:context=".LoginPage">
+
+
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/LogoMakr_4is475"
+        android:contentDescription="@string/img" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="Show Yourself, Let's Go"
+        android:textColor="@android:color/holo_red_light"
+        android:textStyle="bold"
+        android:fontFamily="@font/m_medium"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/et_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
+        android:drawablePadding="10dp"
+        android:hint="Masukkan email"
+        android:fontFamily="@font/m_regular"
+        android:drawableStart="@drawable/ic_person_black_24dp"
+        android:background="@drawable/rounded_et" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true">
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:padding="10dp"
+            android:drawablePadding="10dp"
+            android:hint="Masukkan password"
+            android:fontFamily="@font/m_regular"
+            android:drawableStart="@drawable/ic_lock_black_24dp"
+            android:background="@drawable/rounded_et"
+            android:autofillHints="no"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Masuk"
+        android:fontFamily="@font/m_medium"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:background="@drawable/rounded_btn" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:onClick="mendaftar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mendaftar"
+            android:fontFamily="@font/m_medium"
+            android:textStyle="bold"
+            android:layout_marginTop="35dp"
+            android:padding="10dp"
+            android:textColor="@android:color/holo_red_light"
+            tools:ignore="OnClick" />
+
+        <TextView
+            android:onClick="lupaPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:fontFamily="@font/m_medium"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:text="Lupa Password"
+            android:textColor="@android:color/holo_red_light"
+            android:textStyle="bold"
+            tools:ignore="OnClick" />
+
+    </RelativeLayout>
+
+</LinearLayout>
