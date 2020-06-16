@@ -14,7 +14,7 @@
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/LogoMakr_4is475"
+        android:src="@drawable/frost_logo"
         android:contentDescription="@string/img" />
 
     <TextView
@@ -72,5 +72,18 @@
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:background="@drawable/rounded_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kembali ke halaman login"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:fontFamily="@font/m_regular"
+        android:onClick="backToLogin"
+        android:layout_gravity="end"
+        android:layout_marginTop="20dp"
+        tools:ignore="OnClick" />
 
 </LinearLayout>

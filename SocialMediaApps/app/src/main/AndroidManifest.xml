@@ -13,15 +13,12 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ProfileActivity"></activity>
         <activity
-            android:name=".ForgotPasswordActivity"
-            android:theme="@style/AppTheme2" />
-        <activity
             android:name=".RegisterActivity"
             android:theme="@style/AppTheme2" />
         <activity
             android:name=".LoginPage"
             android:theme="@style/AppTheme2" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".SplashScreen" android:theme="@style/AppTheme2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

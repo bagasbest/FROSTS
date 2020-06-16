@@ -111,4 +111,9 @@ public class RegisterActivity extends AppCompatActivity {
         onBackPressed(); //go to preview activity
         return super.onSupportNavigateUp();
     }
+
+    public void backToLogin(View view) {
+        startActivity(new Intent(this, LoginPage.class));
+        finish();
+    }
 }
