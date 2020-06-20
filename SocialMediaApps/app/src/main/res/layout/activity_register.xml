@@ -9,6 +9,7 @@
     android:paddingRight="40dp"
     android:paddingBottom="20dp"
     android:gravity="center"
+    android:background="@android:color/white"
     tools:context=".RegisterActivity">
 
     <ImageView
@@ -34,11 +35,30 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:padding="10dp"
+        android:textSize="12sp"
         android:drawablePadding="10dp"
         android:hint="Masukkan email"
+        android:inputType="textEmailAddress"
+        android:fontFamily="@font/m_regular"
+        android:drawableStart="@drawable/ic_email_black_24dp"
+        android:background="@drawable/rounded_et"
+        android:autofillHints="no" />
+
+    <EditText
+        android:id="@+id/et_reg_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
+        android:textSize="12sp"
+        android:inputType="text"
+        android:drawablePadding="10dp"
+        android:hint="Masukkan nama"
         android:fontFamily="@font/m_regular"
         android:drawableStart="@drawable/ic_person_black_24dp"
-        android:background="@drawable/rounded_et" />
+        android:background="@drawable/rounded_et"
+        android:autofillHints="no" />
+
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -51,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:padding="10dp"
+            android:textSize="12sp"
             android:drawablePadding="10dp"
             android:hint="Masukkan password"
             android:fontFamily="@font/m_regular"
@@ -79,7 +100,7 @@
         android:text="Kembali ke halaman login"
         android:padding="10dp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorPrimary"
         android:fontFamily="@font/m_regular"
         android:onClick="backToLogin"
         android:layout_gravity="end"

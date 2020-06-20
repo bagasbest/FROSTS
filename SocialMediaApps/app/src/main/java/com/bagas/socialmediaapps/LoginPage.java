@@ -12,8 +12,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -29,12 +27,15 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -55,9 +56,6 @@ public class LoginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-
-        actionBar = getSupportActionBar();
-        actionBar.setTitle("Login");
 
         etId = findViewById(R.id.et_id);
         etPassword = findViewById(R.id.et_password);
@@ -86,7 +84,12 @@ public class LoginPage extends AppCompatActivity {
                 if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     etId.setError("Invalid Email");
                     etId.setFocusable(true);
-                } else {
+                } else if(pass.length() < 6){
+                    etPassword.setError("Password kurang dari 6 karakter");
+                    etPassword.setFocusable(true);
+                }
+
+                else {
                     loginUser(email, pass);
                 }
             }
@@ -111,7 +114,7 @@ public class LoginPage extends AppCompatActivity {
                         if(task.isSuccessful()) {
                             progressDialog.dismiss();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(LoginPage.this, ProfileActivity.class));
+                            startActivity(new Intent(LoginPage.this, DashboardActivity.class));
                             finish();
                         } else {
                             progressDialog.dismiss();
@@ -258,8 +261,26 @@ public class LoginPage extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
 
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            String email = user.getEmail();
+                            String uid  = user.getUid();
+
+                            HashMap<Object, String> hashMap = new HashMap<>();
+                            hashMap.put("email", email);
+                            hashMap.put("uid", uid);
+                            hashMap.put("name", "");
+                            hashMap.put("phone", "");
+                            hashMap.put("image", "");
+
+
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference reference = database.getReference("Users");
+                            reference.child(uid).setValue(hashMap);
+
+
+
                             Toast.makeText(LoginPage.this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginPage.this, ProfileActivity.class));
+                            startActivity(new Intent(LoginPage.this, DashboardActivity.class));
                             finish();
                             //updateUI(user);
                         } else {
@@ -287,6 +308,6 @@ public class LoginPage extends AppCompatActivity {
 //* 5. Check Google-service.json file to make sure app is connect with firebase
 //* 6. User Registration using Email & Password
 //* 7. Create Profile Activity
-//* 8. Make ProfileActivity Launcher
-//* 9. Go to ProfileActivity After Registration/Login
+//* 8. Make DashboardActivity Launcher
+//* 9. Go to DashboardActivity After Registration/Login
 //* 10. Add Logout button

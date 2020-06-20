@@ -9,6 +9,7 @@
     android:paddingLeft="40dp"
     android:paddingRight="40dp"
     android:paddingBottom="20dp"
+    android:background="@android:color/white"
     tools:context=".LoginPage">
 
 
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:text="Show Yourself, Let's Go"
-        android:textColor="@android:color/holo_red_light"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         android:fontFamily="@font/m_medium"
         android:textSize="25sp" />
@@ -35,11 +36,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:padding="10dp"
+        android:textSize="12sp"
         android:drawablePadding="10dp"
         android:hint="Masukkan email"
         android:fontFamily="@font/m_regular"
         android:drawableStart="@drawable/ic_person_black_24dp"
-        android:background="@drawable/rounded_et" />
+        android:background="@drawable/rounded_et"
+        tools:ignore="SmallSp"
+        android:autofillHints="no"
+        android:inputType="textEmailAddress" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -58,6 +63,7 @@
             android:drawableStart="@drawable/ic_lock_black_24dp"
             android:background="@drawable/rounded_et"
             android:autofillHints="no"
+            android:textSize="12sp"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,7 +84,7 @@
         android:text="Atau"
         android:gravity="center"
         android:fontFamily="@font/m_medium"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         android:layout_marginTop="16dp" />
 
@@ -100,7 +106,7 @@
             android:textStyle="bold"
             android:layout_marginTop="16dp"
             android:padding="10dp"
-            android:textColor="@android:color/holo_red_light"
+            android:textColor="@color/colorPrimary"
             tools:ignore="OnClick" />
 
         <TextView
@@ -112,7 +118,7 @@
             android:padding="10dp"
             android:layout_alignParentRight="true"
             android:text="Lupa Password"
-            android:textColor="@android:color/holo_red_light"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             tools:ignore="OnClick" />
 
