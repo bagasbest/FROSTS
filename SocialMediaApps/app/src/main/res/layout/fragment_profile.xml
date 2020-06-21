@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F1EDED"
     tools:context=".ProfileFragment">
 
@@ -15,9 +16,12 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/cover"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:background="@color/colorPrimaryDark">
+                android:scaleType="fitXY"
+                android:background="@color/colorPrimaryDark"
+                android:contentDescription="@string/img">
 
             </ImageView>
 
@@ -38,6 +42,8 @@
                     android:id="@+id/avatarIv"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
+                    app:civ_border_width="5dp"
+                    app:civ_border_color="@android:color/white"
                     android:background="@drawable/avatar_blank" />
 
             </RelativeLayout>

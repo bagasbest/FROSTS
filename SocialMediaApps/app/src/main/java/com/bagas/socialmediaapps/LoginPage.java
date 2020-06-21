@@ -40,6 +40,7 @@ import java.util.HashMap;
 public class LoginPage extends AppCompatActivity {
 
     FirebaseAuth mAuth;
+    FirebaseUser user;
 
     private EditText etId, etPassword, etGetEmailForgotPassword;
     private Button btnLogin, btnConfirm, btnDismiss;
@@ -51,6 +52,21 @@ public class LoginPage extends AppCompatActivity {
     SignInButton mGoogleLoginBtn;
     private static final int RC_SIGN_IN = 100;
     GoogleSignInClient mGoogleSignInClient;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        //check if user not logout/ current user is not null
+        if(user != null) {
+            startActivity(new Intent(this, DashboardActivity.class));
+            finish();
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +120,8 @@ public class LoginPage extends AppCompatActivity {
         });
 
     }
+
+
 
     private void loginUser(String email, String pass) {
         progressDialog();
@@ -252,6 +270,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
+        progressDialog();
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -280,7 +299,7 @@ public class LoginPage extends AppCompatActivity {
                                 DatabaseReference reference = database.getReference("Users");
                                 reference.child(uid).setValue(hashMap);
                             }
-
+                            progressDialog.dismiss();
                             Toast.makeText(LoginPage.this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginPage.this, DashboardActivity.class));
                             finish();
