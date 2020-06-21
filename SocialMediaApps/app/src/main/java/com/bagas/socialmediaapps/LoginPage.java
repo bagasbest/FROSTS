@@ -262,22 +262,24 @@ public class LoginPage extends AppCompatActivity {
 
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            String email = user.getEmail();
-                            String uid  = user.getUid();
+                            //if user first time when get and show user info from google account
+                            if(task.getResult().getAdditionalUserInfo().isNewUser()){
+                                String email = user.getEmail();
+                                String uid  = user.getUid();
 
-                            HashMap<Object, String> hashMap = new HashMap<>();
-                            hashMap.put("email", email);
-                            hashMap.put("uid", uid);
-                            hashMap.put("name", "");
-                            hashMap.put("phone", "");
-                            hashMap.put("image", "");
-
-
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            DatabaseReference reference = database.getReference("Users");
-                            reference.child(uid).setValue(hashMap);
+                                HashMap<Object, String> hashMap = new HashMap<>();
+                                hashMap.put("email", email);
+                                hashMap.put("uid", uid);
+                                hashMap.put("name", "");
+                                hashMap.put("phone", "");
+                                hashMap.put("image", "");
+                                hashMap.put("cover", "");
 
 
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference reference = database.getReference("Users");
+                                reference.child(uid).setValue(hashMap);
+                            }
 
                             Toast.makeText(LoginPage.this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginPage.this, DashboardActivity.class));
