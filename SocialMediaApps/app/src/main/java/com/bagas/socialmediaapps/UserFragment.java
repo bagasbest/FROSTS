@@ -1,15 +1,23 @@
 package com.bagas.socialmediaapps;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +40,9 @@ public class UserFragment extends Fragment {
     AdapterUsers adapterUsers;
     List<ModelUser> userList;
 
+    //firebase
+    FirebaseAuth firebaseAuth;
+
     public UserFragment() {
         // Required empty public constructor
     }
@@ -49,6 +60,9 @@ public class UserFragment extends Fragment {
         //set it's properties
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        //init firebaseAuth
+        firebaseAuth = FirebaseAuth.getInstance();
 
         //init user list
         userList = new ArrayList<>();
@@ -88,5 +102,106 @@ public class UserFragment extends Fragment {
             }
         });
 
+    }
+    private void searchUsers(final String query) {
+        //get current user
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+
+        //get all data
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userList.clear();
+                for(DataSnapshot ds : snapshot.getChildren()) {
+                    ModelUser modelUser = ds.getValue(ModelUser.class);
+
+                    //get all search users except currently signed in user
+                    if(!modelUser.getUid().equals(user.getUid())) {
+                        if(modelUser.getName().toLowerCase().contains(query.toLowerCase())) {
+                            userList.add(modelUser);
+                        }
+                    }
+                    //adapter
+                    adapterUsers = new AdapterUsers(getActivity(), userList);
+                    //refresh  adapter
+                    adapterUsers.notifyDataSetChanged();
+                    //set adapter to recycler view
+                    recyclerView.setAdapter(adapterUsers);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void checkUserStatus () {
+        //get current user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            //user is signed in
+        } else {
+            startActivity(new Intent(getActivity(), LoginPage.class));
+            getActivity().finish();
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true); //to show menu option in fragment
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+
+        //searchView
+        MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+        //search listener
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(!TextUtils.isEmpty(query.trim())) {
+                    //search tect contain text, search it
+                    searchUsers(query);
+                } else {
+                    //search text empty, get all users
+                    getAllUsers();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(!TextUtils.isEmpty(newText.trim())) {
+                    //search tect contain text, search it
+                    searchUsers(newText);
+                } else {
+                    //search text empty, get all users
+                    getAllUsers();
+                }
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_logout) {
+            firebaseAuth.signOut();
+            checkUserStatus();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
