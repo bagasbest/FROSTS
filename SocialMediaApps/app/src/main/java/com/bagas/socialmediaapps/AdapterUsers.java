@@ -77,8 +77,8 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
             super(itemView);
 
             //init views
-            avatarIv = itemView.findViewById(R.id.avatarIv);
-            mNameTv = itemView.findViewById(R.id.nameTv);
+            avatarIv = itemView.findViewById(R.id.avatarIv_users);
+            mNameTv = itemView.findViewById(R.id.nameTv_users);
 
         }
     }
