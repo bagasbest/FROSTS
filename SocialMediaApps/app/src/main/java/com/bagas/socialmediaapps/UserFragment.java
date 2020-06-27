@@ -140,7 +140,7 @@ public class UserFragment extends Fragment {
         });
     }
 
-    public void checkUserStatus () {
+    private void checkUserStatus() {
         //get current user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null) {
