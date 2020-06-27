@@ -1,6 +1,7 @@
-package com.bagas.socialmediaapps;
+package com.bagas.socialmediaapps.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bagas.socialmediaapps.ChatActivity;
+import com.bagas.socialmediaapps.Model.ModelUser;
+import com.bagas.socialmediaapps.R;
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         //getData
+        final String hisUID = userList.get(position).getUid();
         String userImage = userList.get(position).getImage();
         final String userName = userList.get(position).getName();
 //        String userEmail = userList.get(position).getEmail();
@@ -56,7 +59,12 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+userName, Toast.LENGTH_SHORT).show();
+                //click user from user list to start chatting
+                //start activity by putting UID of receiver
+                //we will use that UID to identify the user are we going to chat
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("hisUID", hisUID);
+                context.startActivity(intent);
             }
         });
 

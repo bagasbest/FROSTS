@@ -62,6 +62,10 @@ public class DashboardActivity extends AppCompatActivity {
                             actionBar.setTitle("User");
                             selectedFragment = new UserFragment();
                             break;
+                        case R.id.nav_chat:
+                            actionBar.setTitle("Chats");
+                            selectedFragment = new ChatListFragment();
+                            break;
                     }
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.content,
