@@ -1,4 +1,4 @@
-package com.bagas.socialmediaapps.Model;
+package com.bagas.socialmediaapps.model;
 
 import com.google.firebase.database.PropertyName;
 

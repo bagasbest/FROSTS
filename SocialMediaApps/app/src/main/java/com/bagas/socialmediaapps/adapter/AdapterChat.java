@@ -1,4 +1,4 @@
-package com.bagas.socialmediaapps.Adapter;
+package com.bagas.socialmediaapps.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,8 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bagas.socialmediaapps.ChatActivity;
-import com.bagas.socialmediaapps.Model.ModelChat;
+import com.bagas.socialmediaapps.model.ModelChat;
 import com.bagas.socialmediaapps.R;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,10 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 

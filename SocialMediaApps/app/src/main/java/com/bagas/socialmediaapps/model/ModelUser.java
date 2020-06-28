@@ -1,4 +1,4 @@
-package com.bagas.socialmediaapps.Model;
+package com.bagas.socialmediaapps.model;
 
 public class ModelUser {
     //use same name as in firebase database

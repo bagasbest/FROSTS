@@ -1,7 +1,6 @@
 package com.bagas.socialmediaapps;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,8 +22,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bagas.socialmediaapps.Adapter.AdapterChat;
-import com.bagas.socialmediaapps.Model.ModelChat;
+import com.bagas.socialmediaapps.adapter.AdapterChat;
+import com.bagas.socialmediaapps.model.ModelChat;
+import com.bagas.socialmediaapps.model.ModelUser;
+import com.bagas.socialmediaapps.notification.ApiService;
+import com.bagas.socialmediaapps.notification.Client;
+import com.bagas.socialmediaapps.notification.Data;
+import com.bagas.socialmediaapps.notification.Response;
+import com.bagas.socialmediaapps.notification.Sender;
+import com.bagas.socialmediaapps.notification.Token;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +47,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class ChatActivity extends AppCompatActivity {
@@ -69,6 +78,9 @@ public class ChatActivity extends AppCompatActivity {
     String hisUid;
     String myUid;
     String hisImage;
+
+    ApiService apiService;
+    boolean notify = false;
 
     @Override
     protected void onStart() {
@@ -122,6 +134,8 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
+        //create api service
+        apiService = Client.getRetrofit("https://fcm.googleapis.com/").create(ApiService.class);
 
 
 
@@ -187,6 +201,7 @@ public class ChatActivity extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                notify = true;
                 String message = messageEt.getText().toString().trim();
                 //check is et not null
                 if(!TextUtils.isEmpty(message)) {
@@ -194,6 +209,8 @@ public class ChatActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(ChatActivity.this, "Cannot send message...", Toast.LENGTH_SHORT).show();
                 }
+
+                messageEt.setText("");
             }
         });
 
@@ -277,7 +294,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage(String message) {
+    private void sendMessage(final String message) {
        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         String timestamp = String.valueOf(System.currentTimeMillis());
        HashMap<String, Object> hashMap = new HashMap<>();
@@ -288,8 +305,62 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("isSeen", false);
         databaseReference.child("Chats").push().setValue(hashMap);
 
-        //reset edit text aftar sending message
-        messageEt.setText("");
+//        //reset edit text aftar sending message
+//        messageEt.setText("");
+//
+//        String msg = message;
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ModelUser user = snapshot.getValue(ModelUser.class);
+
+                if(notify){
+                    sendNotification(hisUid, user.getName(), message);
+                }
+                notify = false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+    private void sendNotification(final String hisUid, final String name, final String message) {
+        DatabaseReference allTokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = allTokens.orderByKey().equalTo(hisUid);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds: snapshot.getChildren()) {
+                    Token token = ds.getValue(Token.class);
+                    Data data = new Data(myUid, name + ":" + message, "New Message", hisUid, R.drawable.ic_default_img);
+
+                    Sender sender = new Sender(data, token.getToken());
+                    apiService.sendNotification(sender)
+                            .enqueue(new Callback<Response>() {
+                                @Override
+                                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                                    Toast.makeText(ChatActivity.this, ""+response.message(), Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onFailure(Call<Response> call, Throwable t) {
+
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void checkUserStatus() {

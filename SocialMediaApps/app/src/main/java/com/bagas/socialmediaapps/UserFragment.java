@@ -19,8 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
-import com.bagas.socialmediaapps.Adapter.AdapterUsers;
-import com.bagas.socialmediaapps.Model.ModelUser;
+import com.bagas.socialmediaapps.adapter.AdapterUsers;
+import com.bagas.socialmediaapps.model.ModelUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

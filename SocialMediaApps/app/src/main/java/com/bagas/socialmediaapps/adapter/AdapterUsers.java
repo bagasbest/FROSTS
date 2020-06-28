@@ -1,4 +1,4 @@
-package com.bagas.socialmediaapps.Adapter;
+package com.bagas.socialmediaapps.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,13 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bagas.socialmediaapps.ChatActivity;
-import com.bagas.socialmediaapps.Model.ModelUser;
+import com.bagas.socialmediaapps.model.ModelUser;
 import com.bagas.socialmediaapps.R;
 import com.bumptech.glide.Glide;
 
