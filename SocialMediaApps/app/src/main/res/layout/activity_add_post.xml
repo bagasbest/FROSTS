@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddPostActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="2dp" >
+
+        <EditText
+            android:id="@+id/pTitleEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="Enter title"
+            android:singleLine="true"
+            android:background="@drawable/editextstyle"
+            android:autofillHints="no"
+            android:inputType="text" />
+
+        <ImageView
+            android:id="@+id/pImageIv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="200dp"
+            android:background="@color/colorPrimaryDark"
+            android:contentDescription="@string/img" />
+
+        <EditText
+            android:id="@+id/pDescriptionEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter description"
+            android:background="@drawable/editextstyle"
+            android:padding="10dp"
+            android:minHeight="120dp"
+            android:inputType="textCapSentences|textMultiLine"
+            android:autofillHints="no" />
+
+        <Button
+            android:id="@+id/pUploafBtn"
+            android:layout_marginTop="20dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_btn"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Upload"
+            android:fontFamily="@font/m_medium"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+
+
+    </LinearLayout>
+
+</ScrollView>
