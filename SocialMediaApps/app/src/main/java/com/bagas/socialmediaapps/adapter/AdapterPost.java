@@ -1,22 +1,28 @@
 package com.bagas.socialmediaapps.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.telecom.Call;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bagas.socialmediaapps.R;
+import com.bagas.socialmediaapps.ThereProfileActivity;
 import com.bagas.socialmediaapps.model.ModelPost;
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.List;
@@ -44,7 +50,7 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.MyHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         //getData
-        String uid = postList.get(position).getUid();
+        final String uid = postList.get(position).getUid();
         String uEmail = postList.get(position).getuEmail();
         String uName = postList.get(position).getuName();
         String uDp = postList.get(position).getuDp();
@@ -66,9 +72,9 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.MyHolder> {
 
         //setUser Dp
         try {
-            Glide.with(holder.itemView.getContext()).load(R.drawable.ic_default_img).into(holder.uPicture);
+            Glide.with(holder.itemView.getContext()).load(uDp).into(holder.uPicture);
         }catch (Exception e) {
-
+            Picasso.get().load(R.drawable.ic_default_img).into(holder.uPicture);
         }
 
         //setUser post image
@@ -117,6 +123,15 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.MyHolder> {
             }
         });
 
+        holder.profileLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ThereProfileActivity.class);
+                intent.putExtra("uid", uid);
+                context.startActivity(intent);
+            }
+        });
+
 
 
 
@@ -133,7 +148,9 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.MyHolder> {
         //init view from row.xml
         ImageView uPicture, pImageIv;
         TextView uNameTv, pTimeTv, pTitleTv, pDescriptionTv, pLikesTv;
-        ImageButton likeBtn, commentBtn, shareBtn, moreBtn;
+        Button likeBtn, commentBtn, shareBtn;
+        ImageButton moreBtn;
+        LinearLayout profileLayout;
 
 
         public MyHolder(@NonNull View itemView) {
@@ -151,6 +168,7 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.MyHolder> {
             commentBtn = itemView.findViewById(R.id.commentBtn);
             shareBtn = itemView.findViewById(R.id.shareBtn);
             moreBtn = itemView.findViewById(R.id.moreBtn);
+            profileLayout = itemView.findViewById(R.id.profileLayout);
 
         }
     }

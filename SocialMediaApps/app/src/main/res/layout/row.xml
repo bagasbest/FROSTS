@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="3dp"
     android:elevation="3dp"
@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/profileLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -26,6 +27,8 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:scaleType="centerCrop"
+                app:civ_border_width="3dp"
+                app:civ_border_color="@android:color/white"
                 android:src="@drawable/ic_default_img" />
 
             <LinearLayout
@@ -70,6 +73,8 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
             android:fontFamily="@font/m_medium"
             android:textColor="@android:color/black"
             android:autoLink="all"
@@ -79,21 +84,28 @@
             android:id="@+id/pDecsTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="11sp"
             android:textStyle="bold"
             android:autoLink="all"
+            android:layout_marginStart="15dp"
             android:fontFamily="@font/m_regular"
             android:text="Descriptions of the text " />
+
         <ImageView
             android:id="@+id/pImageIv"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginTop="15dp"
             android:background="@android:color/white"
             android:contentDescription="@string/img" />
         <TextView
             android:id="@+id/pLikesTv"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
             android:text="1.2k Likes"
             android:fontFamily="@font/m_regular"/>
 
@@ -116,8 +128,9 @@
                 android:text="Like"
                 android:textColor="@android:color/white"
                 android:layout_margin="5dp"
+                android:backgroundTint="@color/colorPrimary"
                 android:fontFamily="@font/m_medium"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/rounded_btn2"
                 tools:ignore="ButtonStyle" />
 
             <Button
@@ -129,7 +142,8 @@
                 android:layout_margin="5dp"
                 android:textColor="@android:color/white"
                 android:fontFamily="@font/m_medium"
-                android:background="#0DF164"
+                android:background="@drawable/rounded_btn2"
+                android:backgroundTint="#0DF164"
                 tools:ignore="ButtonStyle" />
 
             <Button
@@ -138,11 +152,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Share"
-                android:shadowRadius="20dp"
                 android:textColor="@android:color/white"
                 android:layout_margin="5dp"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:background="@drawable/rounded_btn2"
                 android:fontFamily="@font/m_medium"
-                android:background="@android:color/holo_blue_dark"
                 tools:ignore="ButtonStyle" />
 
         </LinearLayout>
