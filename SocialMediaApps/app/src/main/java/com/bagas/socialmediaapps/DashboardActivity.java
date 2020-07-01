@@ -49,8 +49,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         checkUserStatus();
 
-        //update token
-        updateToken(FirebaseInstanceId.getInstance().getToken());
+
 
     }
 
@@ -103,6 +102,10 @@ public class DashboardActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("Current_USERID", mUID);
             editor.apply();
+
+            //update token
+            updateToken(FirebaseInstanceId.getInstance().getToken());
+
         } else {
             //uset not signed
             startActivity(new Intent(this, LoginPage.class));
