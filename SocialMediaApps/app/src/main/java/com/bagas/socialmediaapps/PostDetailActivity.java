@@ -83,7 +83,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
         uPicture = findViewById(R.id.uPictureIv);
         pImageIv = findViewById(R.id.pImageIv);
-        uNameTv = findViewById(R.id.nameTv);
+        uNameTv = findViewById(R.id.uNameTv);
         pTimeTiv = findViewById(R.id.pTimeTv);
         pTitleTv = findViewById(R.id.pTitleTv);
         pDecriptionTv = findViewById(R.id.pDecsTv);
@@ -91,7 +91,7 @@ public class PostDetailActivity extends AppCompatActivity {
         likeBtn = findViewById(R.id.likeBtn);
         shareBtn = findViewById(R.id.shareBtn);
         moreBtn = findViewById(R.id.moreBtn);
-        sendBtn = findViewById(R.id.sendBtn);
+        sendBtn = findViewById(R.id.ic_send);
         commentEt = findViewById(R.id.commentEt);
         profileLayout = findViewById(R.id.profileLayout);
         cAvatarIv = findViewById(R.id.cAvatarIv);
@@ -286,7 +286,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
                     } else {
                         //not like, then liked it
-                        postRef1.child(postId).child("pLikes").setValue(""+(Integer.parseInt(pLikes)-1));
+                        postRef1.child(postId).child("pLikes").setValue(""+(Integer.parseInt(pLikes)+1));
                         likesRef.child(postId).child(myUid).setValue("Liked");
                         mProcessLike = false;
 
@@ -309,19 +309,20 @@ public class PostDetailActivity extends AppCompatActivity {
         //validate
         if(TextUtils.isEmpty(comment)) {
             //no Value entered
+            progressDialog.dismiss();
             Toast.makeText(this, "Comment is empty...", Toast.LENGTH_SHORT).show();
             return;
         }
 
         String timeStamp = String.valueOf(System.currentTimeMillis());
-       // String cId = myUid + "_" + timeStamp;
+        String cId = myUid + "_" + timeStamp;
 
         //each post will have child "comments" that will contain comments of that post
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts")
                 .child(postId).child("Comments");
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("cId", timeStamp);
+        hashMap.put("cId", cId);
         hashMap.put("comment", comment);
         hashMap.put("timestamp", timeStamp);
         hashMap.put("uid", myUid);
@@ -330,7 +331,7 @@ public class PostDetailActivity extends AppCompatActivity {
         hashMap.put("uName", myName);
 
         //put to database
-        ref.child(timeStamp).setValue(hashMap)
+        ref.child(cId).setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -366,7 +367,7 @@ public class PostDetailActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(mProcessComment){
                     String comments = ""+snapshot.child("pComments").getValue();
-                    int newCommentVal = Integer.parseInt(comments);
+                    int newCommentVal = Integer.parseInt(comments) + 1;
                     ref.child("pComments").setValue(""+newCommentVal);
                     mProcessComment = false;
                 }
