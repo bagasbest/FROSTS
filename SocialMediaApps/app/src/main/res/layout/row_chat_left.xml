@@ -27,17 +27,30 @@
             android:layout_weight="1"
             android:textSize="15sp"
             android:padding="16dp"
+            android:visibility="gone"
             android:text="Hello World!"
             android:fontFamily="@font/m_regular"
             android:textColor="@android:color/black"
             android:background="@drawable/bg_receiver" />
+
+        <ImageView
+            android:id="@+id/messageIv"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_image_black_24dp"
+            android:background="@drawable/bg_receiver"
+            android:contentDescription="@string/img" />
 
         <TextView
             android:id="@+id/timeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="27/06/2020 07:38PM"
-            android:textSize="12sp"
+            android:textSize="11sp"
+            android:layout_marginStart="10dp"
             android:textColor="@android:color/black"
             android:fontFamily="@font/m_regular" />
 

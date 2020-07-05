@@ -65,11 +65,28 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHoler>{
         //getData
         String message = chatList.get(position).getMessage();
         String timeStamp = chatList.get(position).getTimestamp();
+        String type = chatList.get(position).getType();
 
         //convert time stamp to expected result
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(Long.parseLong(timeStamp));
         String dateTime = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
+
+        if(type.equals("text")){
+            //text message
+            holder.messageTv.setVisibility(View.VISIBLE);
+            holder.messageIv.setVisibility(View.GONE);
+
+            holder.messageTv.setText(message);
+        }else {
+            //image message
+            holder.messageTv.setVisibility(View.GONE);
+            holder.messageIv.setVisibility(View.VISIBLE);
+
+            Glide.with(holder.itemView.getContext()).load(message).placeholder(R.drawable.ic_image_black_24dp).into(holder.messageIv);
+
+        }
+
         //set data
         holder.messageTv.setText(message);
         holder.timeTv.setText(dateTime);
@@ -176,7 +193,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHoler>{
 
     static class MyHoler extends RecyclerView.ViewHolder{
 
-        ImageView profileIv;
+        ImageView profileIv, messageIv;
         TextView messageTv, timeTv, isSeenTv;
         LinearLayout messageLayout;
 
@@ -190,6 +207,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHoler>{
             timeTv = itemView.findViewById(R.id.timeTv);
             isSeenTv = itemView.findViewById(R.id.isSeenTv);
             messageLayout = itemView.findViewById(R.id.messageLayout);
+            messageIv = itemView.findViewById(R.id.messageIv);
         }
     }
 

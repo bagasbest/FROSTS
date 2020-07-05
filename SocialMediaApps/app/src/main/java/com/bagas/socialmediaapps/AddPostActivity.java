@@ -493,6 +493,8 @@ public class AddPostActivity extends AppCompatActivity {
                                 hashMap.put("pDescription", description );
                                 hashMap.put("pImage", downloadUri );
                                 hashMap.put("pTime",timestamp );
+                                hashMap.put("pLikes","0" );
+                                hashMap.put("pComments","0" );
 
                                 //path to store post data
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
@@ -538,6 +540,8 @@ public class AddPostActivity extends AppCompatActivity {
             hashMap.put("pDescription", description );
             hashMap.put("pImage", "noImage" );
             hashMap.put("pTime",timestamp );
+            hashMap.put("pLikes","0" );
+            hashMap.put("pComments","0" );
 
             //path to store post data
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
