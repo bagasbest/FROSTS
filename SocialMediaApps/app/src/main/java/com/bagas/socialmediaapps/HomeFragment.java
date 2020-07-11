@@ -157,6 +157,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.action_hotchat).setVisible(false);
+
 
         //searchView to search post by post title/description
         MenuItem item = menu.findItem(R.id.action_search);
@@ -198,7 +200,7 @@ public class HomeFragment extends Fragment {
             checkUserStatus();
         }
 
-        if(id == R.id.action_add) {
+        else if(id == R.id.action_add) {
             startActivity(new Intent(getActivity(), AddPostActivity.class));
 
         }

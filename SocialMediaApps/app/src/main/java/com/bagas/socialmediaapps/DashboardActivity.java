@@ -43,7 +43,7 @@ public class DashboardActivity extends AppCompatActivity {
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
         //home fragment trannsaction default on start
-        actionBar.setTitle("Home");
+        actionBar.setTitle("Timeline");
         getSupportFragmentManager().beginTransaction().replace(R.id.content,
                 new HomeFragment()).commit();
 
@@ -66,7 +66,8 @@ public class DashboardActivity extends AppCompatActivity {
                     Fragment selectedFragment = null;
                     switch (item.getItemId()) {
                         case R.id.nav_home:
-                           selectedFragment = new HomeFragment();
+                            actionBar.setTitle("Timeline");
+                            selectedFragment = new HomeFragment();
                            break;
                         case R.id.nav_Profile:
                             actionBar.setTitle("Profile");

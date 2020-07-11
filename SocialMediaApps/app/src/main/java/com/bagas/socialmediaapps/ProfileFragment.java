@@ -674,6 +674,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.action_hotchat).setVisible(false);
+
 
 
         MenuItem menuItem = menu.findItem(R.id.action_search);
@@ -714,10 +716,12 @@ public class ProfileFragment extends Fragment {
             firebaseAuth.signOut();
             checkUserStatus();
         }
-        if(id == R.id.action_add) {
+        else if(id == R.id.action_add) {
             startActivity(new Intent(getActivity(), AddPostActivity.class));
 
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 }

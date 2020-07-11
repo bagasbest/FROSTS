@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostDetailActivity"></activity>
+        <activity android:name=".PostDetailActivity" />
         <activity android:name=".ThereProfileActivity" />
         <activity android:name=".AddPostActivity" />
         <activity
@@ -45,19 +45,16 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-
-<!--        define file provider -->
-<!--        set the android:exported attribute false-->
-<!--        the FileProvider does not need to be public-->
-<!--        set the anndroid:grantUriPermission attribute to true-->
-<!--        to allow you to grant temporary access to files.-->
+        </service> <!-- define file provider -->
+        <!-- set the android:exported attribute false -->
+        <!-- the FileProvider does not need to be public -->
+        <!-- set the anndroid:grantUriPermission attribute to true -->
+        <!-- to allow you to grant temporary access to files. -->
         <provider
-            android:authorities="com.bagas.socialmediaapps.fileprovider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.bagas.socialmediaapps.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/paths" />

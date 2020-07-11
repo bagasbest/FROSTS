@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bagas.socialmediaapps.adapter.AdapterPost;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -47,8 +53,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AddPostActivity extends AppCompatActivity {
     ActionBar actionBar;
@@ -570,7 +579,6 @@ public class AddPostActivity extends AppCompatActivity {
 
     }
 
-
     private void showImagePickDialog() {
         //options (camera / gallery) to show in dialog
         String[] options = {"Camera", "Gallery"};
@@ -675,6 +683,8 @@ public class AddPostActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         menu.findItem(R.id.action_add).setVisible(false);
         menu.findItem(R.id.action_search).setVisible(false);
+        menu.findItem(R.id.action_hotchat).setVisible(false);
+
         return super.onCreateOptionsMenu(menu);
     }
 

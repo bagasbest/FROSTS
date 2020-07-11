@@ -1,11 +1,15 @@
 package com.bagas.socialmediaapps.notification;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -16,6 +20,8 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.bagas.socialmediaapps.ChatActivity;
+import com.bagas.socialmediaapps.PostDetailActivity;
+import com.bagas.socialmediaapps.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +29,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Random;
+
 public class FirebaseMessaging extends FirebaseMessagingService {
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -32,20 +41,21 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         SharedPreferences sp = getSharedPreferences("SP_USER", MODE_PRIVATE);
         String savedCurrentUser = sp.getString("Current_USERID", "None");
 
-        String sent = remoteMessage.getData().get("sent");
-        String user = remoteMessage.getData().get("user");
-        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+            //chat notification
+            String sent = remoteMessage.getData().get("sent");
+            String user = remoteMessage.getData().get("user");
+            FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if(fUser != null && sent.equals(fUser.getUid())){
-            if(!savedCurrentUser.equals(user)) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                    sendOAndAboveNotification(remoteMessage);
-                }
-                else {
-                    sendNormalNotification(remoteMessage);
+            if(fUser != null && sent.equals(fUser.getUid())){
+                if(!savedCurrentUser.equals(user)) {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                        sendOAndAboveNotification(remoteMessage);
+                    }
+                    else {
+                        sendNormalNotification(remoteMessage);
+                    }
                 }
             }
-        }
     }
 
     private void sendNormalNotification(RemoteMessage remoteMessage) {

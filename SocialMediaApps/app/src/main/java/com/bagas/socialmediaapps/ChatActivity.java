@@ -86,7 +86,7 @@ public class ChatActivity extends AppCompatActivity {
     Toolbar toolbar;
     RecyclerView recyclerView;
     ImageView profileIv;
-    TextView nameTv, userStatusTv;
+    TextView nameTv, userStatusTv, isSeenTv;
     EditText messageEt;
     ImageButton sendBtn, attachBtn;
 
@@ -126,6 +126,8 @@ public class ChatActivity extends AppCompatActivity {
 
     //image picked will be samed in this uri
     Uri image_rui = null;
+
+    String name;
 
     @Override
     protected void onStart() {
@@ -172,6 +174,7 @@ public class ChatActivity extends AppCompatActivity {
         messageEt = findViewById(R.id.messageEt);
         sendBtn = findViewById(R.id.sendBtn);
         attachBtn = findViewById(R.id.attachBtn);
+        isSeenTv = findViewById(R.id.isSeenTv);
 
 
         //init permissions array
@@ -207,7 +210,7 @@ public class ChatActivity extends AppCompatActivity {
                 //check untul required info is received
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     //get data
-                    String name = ""+ds.child("name").getValue();
+                    name = ""+ds.child("name").getValue();
                     hisImage = ""+ds.child("image").getValue();
                     String typingStatus = ""+ds.child("typingTo").getValue();
 
@@ -384,9 +387,10 @@ public class ChatActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
     }
 
-    private void seenMessage() {
+    private void seenMessage(){
         userRefForSeen = FirebaseDatabase.getInstance().getReference("Chats");
         seenListener = userRefForSeen.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()) {
@@ -631,7 +635,12 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds: snapshot.getChildren()) {
                     Token token = ds.getValue(Token.class);
-                    Data data = new Data(myUid, name + ": " + message, "New Message", hisUid, R.drawable.ic_default_img);
+                    Data data = new Data(
+                            myUid,
+                            name + ": " +message,
+                            "New Message",
+                            hisUid,
+                            R.drawable.ic_default_img);
 
                     Sender sender = new Sender(data, token.getToken());
 
@@ -787,6 +796,7 @@ public class ChatActivity extends AppCompatActivity {
         //hide searchView, add post, as we dont need it
         menu.findItem(R.id.action_search).setVisible(false);
         menu.findItem(R.id.action_add).setVisible(false);
+        menu.findItem(R.id.action_logout).setVisible(false);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -795,9 +805,15 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
-        if(id == R.id.action_logout) {
-            firebaseAuth.signOut();
-            checkUserStatus();
+
+
+
+         if(id == R.id.action_hotchat){
+            notify = true;
+            String message = "Halo " + name;
+            //check is et not null
+                sendMessage(message);
+
         }
 
         return super.onOptionsItemSelected(item);

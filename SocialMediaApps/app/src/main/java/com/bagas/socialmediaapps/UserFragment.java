@@ -163,6 +163,7 @@ public class UserFragment extends Fragment {
 
         //heide addpost icon
         menu.findItem(R.id.action_add).setVisible(false);
+        menu.findItem(R.id.action_hotchat).setVisible(false);
 
         //searchView
         MenuItem item = menu.findItem(R.id.action_search);
@@ -207,6 +208,7 @@ public class UserFragment extends Fragment {
             firebaseAuth.signOut();
             checkUserStatus();
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
