@@ -14,43 +14,60 @@
         android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profileIv"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:scaleType="centerCrop"
-            app:civ_border_width="3dp"
-            app:civ_border_color="@android:color/white"
-            android:src="@drawable/ic_face_white_24dp"
-            app:civ_circle_background_color="@color/colorPrimary"/>
+        <!--        Add icons to indicate block/unblock user-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="35dp"
-            android:gravity="center">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileIv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="centerCrop"
+                app:civ_border_width="3dp"
+                app:civ_border_color="@android:color/white"
+                android:src="@drawable/ic_face_white_24dp"
+                app:civ_circle_background_color="@color/colorPrimary"/>
 
-            <TextView
-                android:id="@+id/nameTv"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/m_regular"/>
+                android:orientation="vertical"
+                android:layout_marginStart="35dp"
+                android:gravity="center">
 
-            <TextView
-                android:id="@+id/userStatusTv"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/nameTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/m_regular"/>
+
+                <TextView
+                    android:id="@+id/userStatusTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="online"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/m_regular"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/blockIv"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="online"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/m_regular"/>
-        </LinearLayout>
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_unblock_24dp"
+                android:contentDescription="@string/img" />
+
+        </RelativeLayout>
 
 
     </androidx.appcompat.widget.Toolbar>

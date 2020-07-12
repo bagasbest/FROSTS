@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,12 @@ import com.bagas.socialmediaapps.ChatActivity;
 import com.bagas.socialmediaapps.R;
 import com.bagas.socialmediaapps.model.ModelUser;
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -26,11 +33,17 @@ public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHold
     Context context;
     List<ModelUser> userList;
     private HashMap<String, Object> lastMessageMap;
+    //for getting current user's id
+    FirebaseAuth firebaseAuth;
+    String myUid;
 
     public AdapterChatlist(Context context, List<ModelUser> userList) {
         this.context = context;
         this.userList = userList;
         lastMessageMap = new HashMap<>();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        myUid = firebaseAuth.getUid();
     }
 
     @NonNull
@@ -79,13 +92,41 @@ public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //start chat activity
-                Intent intent = new Intent(context, ChatActivity.class);
-                intent.putExtra("hisUID", hisUid);
-                context.startActivity(intent);
+
+                inBlockedOrNot(hisUid);
+
 
             }
         });
+    }
+
+    private void inBlockedOrNot(final String hisUid) {
+        //first check if sender (Cuurent user) is blocked by receiver or not
+        //Logic: if uid of the sender (current user) exist in "BlockedUsers" of receiver then sender is blocked, otherwise not
+        //if blocked then just display a message but can't send message
+        //if not blocked then simply start the chat activity
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(hisUid).child("BlockedUsers").orderByChild("uid").equalTo(myUid)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds : snapshot.getChildren()){
+                            if(ds.exists()){
+                                Toast.makeText(context, "You're Blocked by user, can't send message",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        //not blocked
+                        Intent intent = new Intent(context, ChatActivity.class);
+                        intent.putExtra("hisUID", hisUid);
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     public void setLastMessageMap(String userId, String lastMessage){

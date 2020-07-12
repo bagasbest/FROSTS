@@ -10,7 +10,7 @@
     app:contentPadding="3dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -21,18 +21,19 @@
             android:src="@drawable/ic_default_img"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginStart="10dp">
+
             <TextView
                 android:id="@+id/nameTv_users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/m_medium"
                 android:text="Person Name"
-                android:textSize="16sp"
                 android:textColor="@android:color/black"
-                android:fontFamily="@font/m_medium" />
+                android:textSize="16sp" />
 <!--            <TextView-->
 <!--                android:id="@+id/bioTv_users"-->
 <!--                android:layout_width="match_parent"-->
@@ -42,6 +43,22 @@
 <!--                android:fontFamily="@font/m_regular" />-->
         </LinearLayout>
 
+<!--        Add icons to indicate block/unblock user-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/blockIv"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_unblock_24dp"
+                android:contentDescription="@string/img" />
+
+        </RelativeLayout>
 
 
     </LinearLayout>
