@@ -903,6 +903,9 @@ public class ChatActivity extends AppCompatActivity {
         menu.findItem(R.id.action_add).setVisible(false);
         menu.findItem(R.id.action_logout).setVisible(false);
 
+        //hide add group icon
+        menu.findItem(R.id.action_create_group).setVisible(false);
+
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -633,6 +633,10 @@ public class PostDetailActivity extends AppCompatActivity {
         //hide some menu item
         menu.findItem(R.id.action_add).setVisible(false);
         menu.findItem(R.id.action_search).setVisible(false);
+
+        //hide add group icon
+        menu.findItem(R.id.action_create_group).setVisible(false);
+
         return super.onCreateOptionsMenu(menu);
     }
 

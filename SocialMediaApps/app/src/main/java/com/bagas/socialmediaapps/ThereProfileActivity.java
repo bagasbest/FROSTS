@@ -225,6 +225,9 @@ public class ThereProfileActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
+        menu.findItem(R.id.action_add).setVisible(false);
+        //hide add group icon
+        menu.findItem(R.id.action_create_group).setVisible(false);
 
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);

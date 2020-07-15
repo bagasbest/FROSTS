@@ -1,4 +1,4 @@
-package com.bagas.socialmediaapps;
+package com.bagas.socialmediaapps.fragments;
 
 import android.content.Intent;
 import android.icu.lang.UScript;
@@ -19,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
+import com.bagas.socialmediaapps.GroupCreateActivity;
+import com.bagas.socialmediaapps.LoginPage;
+import com.bagas.socialmediaapps.R;
 import com.bagas.socialmediaapps.adapter.AdapterChatlist;
 import com.bagas.socialmediaapps.model.ModelChat;
 import com.bagas.socialmediaapps.model.ModelChatlist;
@@ -196,6 +199,9 @@ public class ChatListFragment extends Fragment {
         if(id == R.id.action_logout) {
             firebaseAuth.signOut();
             checkUserStatus();
+        } else if(id == R.id.action_create_group){
+            //go to Create Group page
+            startActivity(new Intent(getActivity(), GroupCreateActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

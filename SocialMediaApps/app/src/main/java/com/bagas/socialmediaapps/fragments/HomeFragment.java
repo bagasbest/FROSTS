@@ -1,4 +1,4 @@
-package com.bagas.socialmediaapps;
+package com.bagas.socialmediaapps.fragments;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -21,6 +21,9 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.bagas.socialmediaapps.AddPostActivity;
+import com.bagas.socialmediaapps.LoginPage;
+import com.bagas.socialmediaapps.R;
 import com.bagas.socialmediaapps.adapter.AdapterPost;
 import com.bagas.socialmediaapps.model.ModelPost;
 import com.google.firebase.auth.FirebaseAuth;
@@ -159,6 +162,8 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.menu_main, menu);
         menu.findItem(R.id.action_hotchat).setVisible(false);
 
+        //hide add group icon
+        menu.findItem(R.id.action_create_group).setVisible(false);
 
         //searchView to search post by post title/description
         MenuItem item = menu.findItem(R.id.action_search);

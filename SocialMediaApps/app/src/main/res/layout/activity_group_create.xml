@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="#eee"
+    tools:context=".GroupCreateActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/groupIconIv"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_group_black_24dp"
+        app:civ_border_width="6dp"
+        app:civ_border_color="#fff"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/groupTitleTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/groupIconIv"
+        android:background="#fff"
+        android:hint="Group Title"
+        android:layout_marginTop="35dp"
+        android:padding="10dp"
+        android:fontFamily="@font/m_regular"
+        android:autofillHints="no"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/groupDescriptionTv"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/groupTitleTv"
+        android:background="#fff"
+        android:hint="Group Description"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:fontFamily="@font/m_regular"
+        android:autofillHints="no"
+        android:inputType="textMultiLine|textCapSentences" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/CreateGroupFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/groupDescriptionTv"
+        android:layout_marginTop="35dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_done_all_black_24dp" />
+
+
+
+
+</RelativeLayout>

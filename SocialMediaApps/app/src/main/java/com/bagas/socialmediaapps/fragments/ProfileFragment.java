@@ -1,4 +1,4 @@
-package com.bagas.socialmediaapps;
+package com.bagas.socialmediaapps.fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -12,14 +12,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -36,6 +34,9 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bagas.socialmediaapps.AddPostActivity;
+import com.bagas.socialmediaapps.LoginPage;
+import com.bagas.socialmediaapps.R;
 import com.bagas.socialmediaapps.adapter.AdapterPost;
 import com.bagas.socialmediaapps.model.ModelPost;
 import com.bumptech.glide.Glide;
@@ -758,6 +759,9 @@ public class ProfileFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
         menu.findItem(R.id.action_hotchat).setVisible(false);
+
+        //hide add group icon
+        menu.findItem(R.id.action_create_group).setVisible(false);
 
 
 

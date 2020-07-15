@@ -10,6 +10,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.bagas.socialmediaapps.fragments.ChatListFragment;
+import com.bagas.socialmediaapps.fragments.HomeFragment;
+import com.bagas.socialmediaapps.fragments.ProfileFragment;
+import com.bagas.socialmediaapps.fragments.UserFragment;
 import com.bagas.socialmediaapps.notification.Token;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -81,6 +85,10 @@ public class DashboardActivity extends AppCompatActivity {
                             actionBar.setTitle("Chats");
                             selectedFragment = new ChatListFragment();
                             break;
+                        case R.id.nav_group:
+                            actionBar.setTitle("Groups");
+                            selectedFragment = new GroupChatFragment();
+
                     }
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.content,

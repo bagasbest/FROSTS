@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
@@ -19,8 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
-import com.bagas.socialmediaapps.adapter.AdapterUsers;
-import com.bagas.socialmediaapps.model.ModelUser;
+import com.bagas.socialmediaapps.adapter.AdapterGroupChatList;
+import com.bagas.socialmediaapps.model.ModelGroupChatList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,22 +29,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UserFragment extends Fragment {
+public class GroupChatFragment extends Fragment {
 
-    RecyclerView recyclerView;
-    AdapterUsers adapterUsers;
-    List<ModelUser> userList;
+    private RecyclerView recyclerView;
 
     //firebase
     FirebaseAuth firebaseAuth;
 
-    public UserFragment() {
+    private ArrayList<ModelGroupChatList> groupChatLists;
+    private AdapterGroupChatList adapterGroupChatList;
+
+
+    public GroupChatFragment() {
         // Required empty public constructor
     }
 
@@ -54,48 +54,33 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_user, container, false);
+        View view =  inflater.inflate(R.layout.fragment_group_chat, container, false);
 
-        //init recyclerView
-        recyclerView = view.findViewById(R.id.users_recyclerView);
+        recyclerView = view.findViewById(R.id.groupRv);
 
-        //set it's properties
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        //init firebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
+        
+        loadGroupChatList();
 
-        //init user list
-        userList = new ArrayList<>();
-
-        //getAll users
-        getAllUsers();
         return view;
     }
 
-    private void getAllUsers() {
-        //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+    private void loadGroupChatList() {
+        groupChatLists = new ArrayList<>();
 
-        //get all data
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Groups");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userList.clear();
+                groupChatLists.clear();
                 for(DataSnapshot ds : snapshot.getChildren()) {
-                    ModelUser modelUser = ds.getValue(ModelUser.class);
-
-                    //get all users except currently signed in user
-                    if(!modelUser.getUid().equals(user.getUid())) {
-                        userList.add(modelUser);
+                    if(!ds.child("Participants").child(firebaseAuth.getUid()).exists()){
+                        ModelGroupChatList modelGroupChatList = ds.getValue(ModelGroupChatList.class);
+                        groupChatLists.add(modelGroupChatList);
                     }
-                    //adapter
-                    adapterUsers = new AdapterUsers(getActivity(), userList);
-                    //set adapter to recycler view
-                    recyclerView.setAdapter(adapterUsers);
                 }
+                adapterGroupChatList = new AdapterGroupChatList(getActivity(), groupChatLists);
+                recyclerView.setAdapter(adapterGroupChatList);
             }
 
             @Override
@@ -103,34 +88,27 @@ public class UserFragment extends Fragment {
 
             }
         });
-
     }
-    private void searchUsers(final String query) {
-        //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
-        //get all data
+    private void searchGroupChatList(final String query) {
+        groupChatLists = new ArrayList<>();
+
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Groups");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userList.clear();
+                groupChatLists.clear();
                 for(DataSnapshot ds : snapshot.getChildren()) {
-                    ModelUser modelUser = ds.getValue(ModelUser.class);
-
-                    //get all search users except currently signed in user
-                    if(!modelUser.getUid().equals(user.getUid())) {
-                        if(modelUser.getName().toLowerCase().contains(query.toLowerCase())) {
-                            userList.add(modelUser);
+                    if(!ds.child("Participants").child(firebaseAuth.getUid()).exists()){
+                        if(ds.child("groupTitle").toString().toLowerCase().contains(query.toLowerCase())){
+                            ModelGroupChatList modelGroupChatList = ds.getValue(ModelGroupChatList.class);
+                            groupChatLists.add(modelGroupChatList);
                         }
+
                     }
-                    //adapter
-                    adapterUsers = new AdapterUsers(getActivity(), userList);
-                    //refresh  adapter
-                    adapterUsers.notifyDataSetChanged();
-                    //set adapter to recycler view
-                    recyclerView.setAdapter(adapterUsers);
                 }
+                adapterGroupChatList = new AdapterGroupChatList(getActivity(), groupChatLists);
+                recyclerView.setAdapter(adapterGroupChatList);
             }
 
             @Override
@@ -138,17 +116,6 @@ public class UserFragment extends Fragment {
 
             }
         });
-    }
-
-    private void checkUserStatus() {
-        //get current user
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null) {
-            //user is signed in
-        } else {
-            startActivity(new Intent(getActivity(), LoginPage.class));
-            getActivity().finish();
-        }
     }
 
     @Override
@@ -165,6 +132,7 @@ public class UserFragment extends Fragment {
         menu.findItem(R.id.action_add).setVisible(false);
         menu.findItem(R.id.action_hotchat).setVisible(false);
 
+
         //searchView
         MenuItem item = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
@@ -175,10 +143,10 @@ public class UserFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 if(!TextUtils.isEmpty(query.trim())) {
                     //search tect contain text, search it
-                    searchUsers(query);
+                    searchGroupChatList(query);
                 } else {
                     //search text empty, get all users
-                    getAllUsers();
+                    loadGroupChatList();
                 }
                 return false;
             }
@@ -187,10 +155,10 @@ public class UserFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 if(!TextUtils.isEmpty(newText.trim())) {
                     //search tect contain text, search it
-                    searchUsers(newText);
+                    searchGroupChatList(newText);
                 } else {
                     //search text empty, get all users
-                    getAllUsers();
+                    loadGroupChatList();
                 }
                 return false;
             }
@@ -209,6 +177,19 @@ public class UserFragment extends Fragment {
             checkUserStatus();
         }
 
+        else if(id == R.id.action_create_group){
+            //go to Create Group page
+            startActivity(new Intent(getActivity(), GroupCreateActivity.class));
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void checkUserStatus() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if(user == null) {
+            startActivity(new Intent(getActivity(), LoginPage.class));
+            getActivity().finish();
+        }
     }
 }
