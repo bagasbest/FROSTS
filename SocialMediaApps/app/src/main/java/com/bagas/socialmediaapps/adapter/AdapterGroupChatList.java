@@ -1,6 +1,8 @@
 package com.bagas.socialmediaapps.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bagas.socialmediaapps.GroupChatActivity;
 import com.bagas.socialmediaapps.R;
 import com.bagas.socialmediaapps.model.ModelGroupChatList;
 import com.bumptech.glide.Glide;
@@ -35,10 +38,10 @@ public class AdapterGroupChatList extends RecyclerView.Adapter<AdapterGroupChatL
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HolderGroupChatList holder, int position) {
+    public void onBindViewHolder(@NonNull final HolderGroupChatList holder, int position) {
         //getData
         ModelGroupChatList modelGroupChatList = groupChatLists.get(position);
-        String groupId = modelGroupChatList.getGroupId();
+        final String groupId = modelGroupChatList.getGroupId();
         String groupIcon = modelGroupChatList.getGroupIcon();
         String groupTitle = modelGroupChatList.getGroupTitle();
 
@@ -54,8 +57,10 @@ public class AdapterGroupChatList extends RecyclerView.Adapter<AdapterGroupChatL
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //will do later
-
+                //open group chat
+                Intent intent = new Intent(context, GroupChatActivity.class);
+                intent.putExtra("groupId", groupId);
+                context.startActivity(intent);
             }
         });
     }
