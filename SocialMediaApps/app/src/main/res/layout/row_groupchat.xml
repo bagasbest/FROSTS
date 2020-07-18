@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/groupTitleTv"
             android:layout_toEndOf="@id/nameTv"
+            android:maxLines="1"
             android:text="The message"
             android:layout_marginStart="5dp" />
 

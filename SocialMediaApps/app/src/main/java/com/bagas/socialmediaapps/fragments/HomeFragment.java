@@ -164,6 +164,8 @@ public class HomeFragment extends Fragment {
 
         //hide add group icon
         menu.findItem(R.id.action_create_group).setVisible(false);
+        menu.findItem(R.id.action_add_participant).setVisible(false);
+
 
         //searchView to search post by post title/description
         MenuItem item = menu.findItem(R.id.action_search);

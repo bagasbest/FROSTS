@@ -167,6 +167,8 @@ public class UserFragment extends Fragment {
         //heide addpost icon
         menu.findItem(R.id.action_add).setVisible(false);
         menu.findItem(R.id.action_hotchat).setVisible(false);
+        menu.findItem(R.id.action_add_participant).setVisible(false);
+
 
         //searchView
         MenuItem item = menu.findItem(R.id.action_search);
