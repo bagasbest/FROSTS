@@ -92,13 +92,20 @@ public class AdapterGroupChatList extends RecyclerView.Adapter<AdapterGroupChatL
                             String message = ""+ds.child("message").getValue();
                             String timestamp = ""+ds.child("timestamp").getValue();
                             String sender = ""+ds.child("sender").getValue();
+                            String messageType = ""+ds.child("type").getValue();
+
 
                             //Convert time
                             Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
                             calendar.setTimeInMillis(Long.parseLong(timestamp));
                             String dateTime = DateFormat.format("dd/MMM/yyyy hh:mm aa", calendar).toString();
 
-                            holder.messageTv.setText(message);
+
+                            if(messageType.equals("image")){
+                                holder.messageTv.setText("Sent photo...");
+                            } else {
+                                holder.messageTv.setText(message);
+                            }
                             holder.timeTv.setText(dateTime);
 
                             //get into sender of last message

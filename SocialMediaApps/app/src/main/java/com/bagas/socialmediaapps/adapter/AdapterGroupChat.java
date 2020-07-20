@@ -5,6 +5,7 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bagas.socialmediaapps.GroupChatActivity;
 import com.bagas.socialmediaapps.R;
 import com.bagas.socialmediaapps.model.ModelGroupChat;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,17 +64,31 @@ public class AdapterGroupChat extends  RecyclerView.Adapter<AdapterGroupChat.Hol
         String timestamp = modelGroupChat.getTimestamp();
         String message = modelGroupChat.getMessage();
         String senderUid = modelGroupChat.getSender();
+        String messageType = modelGroupChat.getType();
 
+        //set data
+        if(messageType.equals("text")){
+            //text message, hide imageView, show messageTv
+            holder.messageIv.setVisibility(View.GONE);
+            holder.messageTv.setVisibility(View.VISIBLE);
+            holder.messageTv.setText(message);
+        } else {
+            //image message
+            holder.messageIv.setVisibility(View.VISIBLE);
+            holder.messageTv.setVisibility(View.GONE);
+
+            try {
+                Glide.with(context).load(message).placeholder(R.drawable.ic_image_black_24dp).into(holder.messageIv);
+            } catch (Exception e){
+                holder.messageIv.setImageResource(R.drawable.ic_image_black_24dp);
+            }
+        }
 
         //convert time stamp to dd/mm/yy hh:mm am/pm
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(Long.parseLong(timestamp));
         String dateTime = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
 
-
-
-        //set data
-        holder.messageTv.setText(message);
         holder.timeTv.setText(dateTime);
 
 
@@ -117,6 +133,7 @@ public class AdapterGroupChat extends  RecyclerView.Adapter<AdapterGroupChat.Hol
     class HolderGroupChat extends RecyclerView.ViewHolder {
 
         private TextView namaTv, messageTv, timeTv;
+        private ImageView messageIv;
 
 
         public HolderGroupChat(@NonNull View itemView) {
@@ -125,6 +142,7 @@ public class AdapterGroupChat extends  RecyclerView.Adapter<AdapterGroupChat.Hol
             namaTv = itemView.findViewById(R.id.nameTv);
             messageTv = itemView.findViewById(R.id.messageTv);
             timeTv = itemView.findViewById(R.id.timeTv);
+            messageIv = itemView.findViewById(R.id.messageIv);
 
         }
     }
