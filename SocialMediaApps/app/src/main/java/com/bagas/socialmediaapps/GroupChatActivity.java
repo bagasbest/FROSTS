@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.bagas.socialmediaapps.adapter.AdapterGroupChat;
 import com.bagas.socialmediaapps.model.ModelGroupChat;
+import com.bagas.socialmediaapps.model.ModelUser;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -81,6 +82,9 @@ public class GroupChatActivity extends AppCompatActivity {
 
     //uri of picked image
     Uri image_uri = null;
+
+
+
 
 
     @Override
@@ -373,7 +377,6 @@ public class GroupChatActivity extends AppCompatActivity {
 
     private void loadGroupInfo() {
 
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Groups");
         ref.orderByChild("groupId").equalTo(groupId)
                 .addValueEventListener(new ValueEventListener() {
@@ -388,6 +391,7 @@ public class GroupChatActivity extends AppCompatActivity {
 
                             groupTitleTv.setText(groupTitle);
                             groupDescrioptionTv.setText(groupDescription);
+
                             try {
                                 Glide.with(GroupChatActivity.this).load(groupIcon).placeholder(R.drawable.ic_group_black_24dp).into(groupIconIv);
                             }catch (Exception e){

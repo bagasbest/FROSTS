@@ -44,6 +44,7 @@
                 android:fontFamily="@font/m_medium"
                 android:text="Created by ABC, on dd/mm/yyy"
                 android:padding="5dp"
+                android:textColor="@android:color/white"
                 android:layout_alignParentBottom="true" />
 
         </RelativeLayout>

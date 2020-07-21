@@ -2,19 +2,24 @@ package com.bagas.socialmediaapps;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bagas.socialmediaapps.adapter.AdapterParticipantsAdd;
 import com.bagas.socialmediaapps.model.ModelUser;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +41,7 @@ public class GroupInfoActivity extends AppCompatActivity {
     private RecyclerView participantRv;
 
     private String groupId;
+    private String groupTitle;
     private String myGroupRole= "";
 
     private FirebaseAuth firebaseAuth;
@@ -70,7 +76,7 @@ public class GroupInfoActivity extends AppCompatActivity {
         loadGroupInfo();
         loadMyGroupRole();
 
-        editGroup.setOnClickListener(new View.OnClickListener() {
+        addParticipantTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(GroupInfoActivity.this, GroupParticipantAddActivity.class);
@@ -79,6 +85,99 @@ public class GroupInfoActivity extends AppCompatActivity {
             }
         });
 
+        editGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(GroupInfoActivity.this, GroupEditActivity.class);
+                intent2.putExtra("groupId", groupId);
+                startActivity(intent2);
+            }
+        });
+
+        leaveGroupTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String dialogTitle="";
+                String dialogDescription ="";
+                String positiveButton = "";
+                if(myGroupRole.equals("creator")){
+                    dialogTitle="Delete Group";
+                    dialogDescription="Are you sure want to delete this group premanently ?";
+                    positiveButton = "DELETE";
+                } else {
+                    dialogTitle="Leave Group";
+                    dialogDescription="Are you sure want to leave this group ?";
+                    positiveButton = "LEAVE";
+                }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(GroupInfoActivity.this);
+                builder.setTitle(dialogTitle)
+                        .setMessage(dialogDescription)
+                        .setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                   if(myGroupRole.equals("creator")){
+                                       //i'm creator of this group
+                                       deleteGroup();
+                                   }else {
+                                       //i'm participant or admin in this group
+                                       leaveGroup();
+                                   }
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
+            }
+        });
+
+    }
+
+    private void leaveGroup() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Groups");
+        ref.child(groupId).child("participants").child(firebaseAuth.getUid())
+                .removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //left group
+                        Toast.makeText(GroupInfoActivity.this, "You has been left out " + groupTitle, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(GroupInfoActivity.this, DashboardActivity.class));
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(GroupInfoActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    private void deleteGroup() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Groups");
+        ref.child(groupId)
+                .removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //left group
+                        Toast.makeText(GroupInfoActivity.this, "You has delete " + groupTitle, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(GroupInfoActivity.this, DashboardActivity.class));
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(GroupInfoActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void loadMyGroupRole() {
@@ -172,7 +271,7 @@ public class GroupInfoActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
                     String groupId = ""+ds.child("groupId").getValue();
-                    String groupTitle = ""+ds.child("groupTitle").getValue();
+                    groupTitle = ""+ds.child("groupTitle").getValue();
                     String groupDescription = ""+ds.child("groupDescription").getValue();
                     String groupIcon = ""+ds.child("groupIcon").getValue();
                     String createdBy = ""+ds.child("createdBy").getValue();
@@ -212,7 +311,7 @@ public class GroupInfoActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
                     String name = ""+ds.child("name").getValue();
-                    createdByTv.setText("Created by " + name + " on" + dateTime);
+                    createdByTv.setText("Created by " + name + " on " + dateTime);
 
 
                 }
