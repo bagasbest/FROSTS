@@ -763,6 +763,7 @@ public class ProfileFragment extends Fragment {
         //hide add group icon
         menu.findItem(R.id.action_create_group).setVisible(false);
         menu.findItem(R.id.action_add_participant).setVisible(false);
+        menu.findItem(R.id.action_groupInfo).setVisible(false);
 
 
 

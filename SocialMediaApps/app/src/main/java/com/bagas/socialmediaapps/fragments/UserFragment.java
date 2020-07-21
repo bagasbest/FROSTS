@@ -168,6 +168,7 @@ public class UserFragment extends Fragment {
         menu.findItem(R.id.action_add).setVisible(false);
         menu.findItem(R.id.action_hotchat).setVisible(false);
         menu.findItem(R.id.action_add_participant).setVisible(false);
+        menu.findItem(R.id.action_groupInfo).setVisible(false);
 
 
         //searchView
