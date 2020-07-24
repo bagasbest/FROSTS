@@ -70,23 +70,23 @@ public class DashboardActivity extends AppCompatActivity {
                     Fragment selectedFragment = null;
                     switch (item.getItemId()) {
                         case R.id.nav_home:
-                            actionBar.setTitle("Timeline");
+                            actionBar.setTitle("Hottalk Feed");
                             selectedFragment = new HomeFragment();
                            break;
                         case R.id.nav_Profile:
-                            actionBar.setTitle("Profile");
+                            actionBar.setTitle("Our Champion");
                             selectedFragment = new ProfileFragment();
                             break;
                         case R.id.nav_user:
-                            actionBar.setTitle("User");
+                            actionBar.setTitle("Check Other Hottalkers");
                             selectedFragment = new UserFragment();
                             break;
                         case R.id.nav_chat:
-                            actionBar.setTitle("Chats");
+                            actionBar.setTitle("Hottalk Personal Chat");
                             selectedFragment = new ChatListFragment();
                             break;
                         case R.id.nav_group:
-                            actionBar.setTitle("Groups");
+                            actionBar.setTitle("Hottalk Groups");
                             selectedFragment = new GroupChatFragment();
 
                     }

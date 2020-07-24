@@ -34,6 +34,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bagas.socialmediaapps.AboutApplication;
 import com.bagas.socialmediaapps.AddPostActivity;
 import com.bagas.socialmediaapps.LoginPage;
 import com.bagas.socialmediaapps.R;
@@ -110,6 +111,7 @@ public class ProfileFragment extends Fragment {
     private Uri image_uri;
 
     String profileOrCoverPhoto;
+
 
 
     public ProfileFragment() {
@@ -303,7 +305,7 @@ public class ProfileFragment extends Fragment {
 
 
     private void showEditProfileDialog() {
-        String []options = {"Edit foto profil", "Edit foto sampul", "Edit nama", "Edit nomor handphone", "Change password"};
+        String []options = {"Edit foto profil", "Edit foto sampul", "Edit nama", "Edit nomor handphone", "Change password", "About Application"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Pilihan");
@@ -322,10 +324,16 @@ public class ProfileFragment extends Fragment {
                     showNamePhoneUpdateDialog("phone");
                 }else if(which == 4) {
                     showChangePasswordDialog();
+                } else if(which == 5){
+                    showAboutApps();
                 }
             }
         });
         builder.create().show();
+    }
+
+    private void showAboutApps() {
+        startActivity(new Intent(getActivity(), AboutApplication.class));
     }
 
     private void showChangePasswordDialog() {

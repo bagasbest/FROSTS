@@ -4,4 +4,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hottalk">Hottalk</string>
+    <string name="easy_to_chat_easy_to_use">Easy to Chat, Easy to Use</string>
 </resources>

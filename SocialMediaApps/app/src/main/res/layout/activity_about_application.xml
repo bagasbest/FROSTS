@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary"
+    tools:context=".AboutApplication">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/white"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:layout_gravity="center_vertical"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/logo_app"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/icon_fire"
+                android:layout_gravity="center"
+                android:contentDescription="@string/img" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hottalk"
+                android:textSize="20sp"
+                android:fontFamily="@font/m_medium"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:fontFamily="@font/m_regular"
+                android:text="Hottalk is a Social Media Apps which can see other people activity, discuss about issue, relating with each other, or you just want to search your friend and make chat ?. this is the right application you can use. " />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You can find person with search click in Check Other Hottalkers menu, or you can create a group in Hottalk Groups by clicking add group icon, so don't wait to long, find your friends and make your community with Hottalk application"
+                android:padding="5dp"
+                android:fontFamily="@font/m_regular" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This application developed by Bagas Pangestu for simple project because long week-end since Covid-19 attacked us \n\nBig Thanks for Atif Pervaiz for tutorial "
+                android:padding="5dp"
+                android:fontFamily="@font/m_regular" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/m_regular"
+                android:layout_marginTop="30dp"
+                android:text="@string/easy_to_chat_easy_to_use"
+                android:layout_gravity="center"
+                android:layout_marginBottom="35dp"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</ScrollView>
